@@ -29,7 +29,8 @@ export async function createUser(newUserData) {
 export async function setPassword(userId, password) {
     let user = await User.findById(userId).select('+passwordHash') 
     user.passwordHash = await hash(password, 3)
-    return await user.save()
+    await user.save()
+    return await User.findById(user._id)
 }
 
 export async function checkPasswordAndReturnUserOrDie(userName, password){
